@@ -5,6 +5,7 @@ class ProductEntityLocal {
   final double priceHigher;
   final double priceUnit;
   final String image;
+  final int idCategory;
 
   ProductEntityLocal({
     this.id = -1,
@@ -13,6 +14,7 @@ class ProductEntityLocal {
     required this.priceHigher,
     required this.priceUnit,
     required this.image,
+    required this.idCategory,
   });
 
   ProductEntityLocal copyWith(
@@ -22,6 +24,7 @@ class ProductEntityLocal {
     double? priceHigher,
     double? priceUnit,
     String? image,
+    int? idCategory,
   ) {
     return ProductEntityLocal(
       name: name ?? this.name,
@@ -29,17 +32,18 @@ class ProductEntityLocal {
       priceHigher: priceHigher ?? this.priceHigher,
       priceUnit: priceUnit ?? this.priceUnit,
       image: image ?? this.image,
+      idCategory: idCategory ?? this.idCategory,
     );
   }
 
   factory ProductEntityLocal.fromMap(Map<String, dynamic> map) {
     return ProductEntityLocal(
-      name: map['name'],
-      description: map['description'],
-      priceHigher: map['priceHigher'],
-      priceUnit: map['priceUnit'],
-      image: map['image'],
-    );
+        name: map['name'],
+        description: map['description'],
+        priceHigher: map['priceHigher'],
+        priceUnit: map['priceUnit'],
+        image: map['image'],
+        idCategory: map['category_id']);
   }
 
   Map<String, dynamic> toMap() {
@@ -50,6 +54,7 @@ class ProductEntityLocal {
       'priceHigher': priceHigher,
       'priceUnit': priceUnit,
       'image': image,
+      'category_id': idCategory,
     };
   }
 }

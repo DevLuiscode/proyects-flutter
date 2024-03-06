@@ -9,5 +9,5 @@ class HomeModel {
 }
 
 final List<HomeModel> listHomeTitle = [
-  HomeModel(title: "ObjectBox", icon: Iconsax.dcube),
+  HomeModel(title: "SQF-LITE", icon: Iconsax.dcube),
 ];

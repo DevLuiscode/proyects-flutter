@@ -24,4 +24,16 @@ class ProductRepositoryImplementation extends ProductRepository {
     final productEntity = ProductMapper.mapModelToEntity(productModel);
     productMemoryDatasource.insertProduct(productEntity);
   }
+
+  @override
+  Future<List<ProductModel>> getAllByCategory(int id) {
+    // TODO: implement getAllByCategory
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<List<ProductModel>> searchProduct(String query) {
+    // TODO: implement searchProduct
+    throw UnimplementedError();
+  }
 }

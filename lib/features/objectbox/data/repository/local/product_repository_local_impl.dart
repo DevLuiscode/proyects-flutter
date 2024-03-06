@@ -1,4 +1,4 @@
-import 'package:personal_proyects/features/objectbox/data/datasource/localdata/localdata/local_datasource.dart';
+import 'package:personal_proyects/features/objectbox/data/datasource/localdata/localdata/product_local_datasource.dart';
 import 'package:personal_proyects/features/objectbox/domain/models/product_model.dart';
 import 'package:personal_proyects/features/objectbox/domain/repository/product_repository.dart';
 import 'package:personal_proyects/features/objectbox/mappers/local/product_local_mapper.dart';
@@ -20,5 +20,22 @@ class ProductRepositoryLocalImplementation implements ProductRepository {
   Future<void> insertProduct(ProductModel productModel) async {
     await productLocalDataSource
         .insertProduct(ProductLocalMapper.mapModelToEntity(productModel));
+  }
+
+  @override
+  Future<List<ProductModel>> getAllByCategory(int id) async {
+    final response = await productLocalDataSource.getAllByCategory(id);
+    return response.map((products) {
+      return ProductLocalMapper.mapEntityToModel(products);
+    }).toList();
+  }
+
+  @override
+  Future<List<ProductModel>> searchProduct(String query) async {
+    final response = await productLocalDataSource.searchProduct(query);
+
+    return response.map((product) {
+      return ProductLocalMapper.mapEntityToModel(product);
+    }).toList();
   }
 }

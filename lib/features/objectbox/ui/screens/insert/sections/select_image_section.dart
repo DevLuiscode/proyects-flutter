@@ -1,32 +1,30 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:image_picker/image_picker.dart';
 
-class SelectImageSection extends StatefulWidget {
-  final File? selectImage;
-  final Function(File?) onImageSelected;
+import '../../../providers/products/form_products_provider/image_provider.dart';
+
+class SelectImageSection extends ConsumerStatefulWidget {
   const SelectImageSection({
     super.key,
-    required this.selectImage,
-    required this.onImageSelected,
   });
 
   @override
-  State<SelectImageSection> createState() => _SelectImageSectionState();
+  SelectImageSectionState createState() => SelectImageSectionState();
 }
 
-class _SelectImageSectionState extends State<SelectImageSection> {
+class SelectImageSectionState extends ConsumerState<SelectImageSection> {
   @override
   Widget build(BuildContext context) {
+    final imageNotifier = ref.read(selectImageProvider.notifier);
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         IconButton(
           iconSize: 30,
           onPressed: () async {
-            imageFromGallery();
+            imageNotifier.imageFromGallery();
           },
           icon: const Icon(
             Iconsax.gallery,
@@ -35,7 +33,7 @@ class _SelectImageSectionState extends State<SelectImageSection> {
         IconButton(
           iconSize: 30,
           onPressed: () async {
-            imageFromCamera();
+            imageNotifier.imageFromCamera();
           },
           icon: const Icon(
             Iconsax.camera,
@@ -43,25 +41,5 @@ class _SelectImageSectionState extends State<SelectImageSection> {
         ),
       ],
     );
-  }
-
-  Future imageFromGallery() async {
-    final image = await ImagePicker().pickImage(source: ImageSource.gallery);
-
-    setState(() {
-      //widget.selectImage = File(image!.path);
-      widget.onImageSelected(File(image!.path));
-    });
-  }
-
-  Future imageFromCamera() async {
-    final image = await ImagePicker().pickImage(source: ImageSource.camera);
-
-    if (image != null) {
-      setState(() {
-        // Notifica al widget padre sobre la nueva imagen seleccionada
-        widget.onImageSelected(File(image.path));
-      });
-    }
   }
 }

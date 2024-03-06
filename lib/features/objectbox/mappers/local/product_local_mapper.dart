@@ -8,7 +8,8 @@ class ProductLocalMapper {
       description: productModel.description,
       priceHigher: productModel.priceHigher,
       priceUnit: productModel.pridceUnit,
-      image: productModel.image,
+      image: productModel.image!,
+      idCategory: productModel.idCategory!,
     );
   }
 
@@ -19,6 +20,7 @@ class ProductLocalMapper {
       priceHigher: productEntityLocal.priceHigher,
       pridceUnit: productEntityLocal.priceUnit,
       image: productEntityLocal.image,
+      idCategory: productEntityLocal.idCategory,
     );
   }
 }

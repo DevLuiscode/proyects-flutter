@@ -3,14 +3,16 @@ class ProductModel {
   final String description;
   final double priceHigher;
   final double pridceUnit;
-  final String image;
+  final String? image;
+  final int? idCategory;
 
   ProductModel({
     required this.name,
     required this.description,
     required this.priceHigher,
     required this.pridceUnit,
-    required this.image,
+    this.image,
+    this.idCategory,
   });
 
   ProductModel copyWith(
@@ -19,6 +21,7 @@ class ProductModel {
     double? priceHigher,
     double? pridceUnit,
     String? image,
+    int? idCategory,
   ) =>
       ProductModel(
         name: name ?? this.name,
@@ -26,5 +29,6 @@ class ProductModel {
         priceHigher: priceHigher ?? this.priceHigher,
         pridceUnit: pridceUnit ?? this.pridceUnit,
         image: image ?? this.image,
+        idCategory: idCategory ?? this.idCategory,
       );
 }

@@ -13,8 +13,15 @@ class DatabaseHelper {
   Future<void> init() async {
     _db = await openDatabase(
       "shoping.db",
-      version: 1,
+      version: 3,
       onCreate: (db, version) {
+        db.execute('''
+          CREATE TABLE category (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL
+          )
+          ''');
+
         db.execute(
           '''
           CREATE TABLE products (
@@ -23,7 +30,9 @@ class DatabaseHelper {
             description TEXT NOT NULL,
             priceHigher REAL NOT NULL,
             priceUnit REAL NOT NULL,
-            image TEXT NOT NULL
+            image TEXT NOT NULL,
+            category_id INTEGER,
+            FOREIGN KEY (category_id) REFERENCES category(id) ON DELETE CASCADE
           )
           ''',
         );

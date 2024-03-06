@@ -1,50 +1,58 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax/iconsax.dart';
 
-import 'package:personal_proyects/features/objectbox/domain/models/product_model.dart';
-import 'package:personal_proyects/features/objectbox/ui/providers/products/product_provider.dart';
+import 'package:personal_proyects/features/objectbox/ui/providers/products/form_products_provider/form_products_provider.dart';
 
 class FormSection extends ConsumerStatefulWidget {
-  final File? imageSelect;
   const FormSection({
     super.key,
-    required this.imageSelect,
   });
 
   @override
-  _FormSectionState createState() => _FormSectionState();
+  FormSectionState createState() => FormSectionState();
 }
 
-class _FormSectionState extends ConsumerState<FormSection> {
-  final TextEditingController nameController = TextEditingController(text: "");
-  final descriptionController = TextEditingController(text: "");
-  final priceHigherController = TextEditingController(text: "");
-  final priceUnitController = TextEditingController(text: "");
-
-  bool isValid = true;
-
-  @override
-  void dispose() {
-    nameController.dispose();
-    descriptionController.dispose();
-    priceHigherController.dispose();
-    priceUnitController.dispose();
-    super.dispose();
-  }
-
+class FormSectionState extends ConsumerState<FormSection> {
   @override
   Widget build(BuildContext context) {
-    final productNotifier = ref.read(productProvider.notifier);
+    final fromProductState = ref.watch(formProductProvider);
+    final formNotifier = ref.read(formProductProvider.notifier);
     return Form(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          DropdownButtonFormField(
+            items: formNotifier.getListDropDownItem(),
+            onChanged: (newValue) {
+              formNotifier.setId(newValue);
+              formNotifier.formIsValid();
+            },
+            decoration: InputDecoration(
+              filled: true,
+              fillColor: Colors.grey.withOpacity(0.1),
+              prefixIcon: const Icon(Iconsax.pen_add),
+              hintText: "Categoria",
+              enabledBorder: OutlineInputBorder(
+                borderSide: const BorderSide(
+                  color: Colors.transparent,
+                ),
+                borderRadius: BorderRadius.circular(20),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderSide: const BorderSide(
+                  color: Colors.transparent,
+                ),
+                borderRadius: BorderRadius.circular(20),
+              ),
+            ),
+          ),
+          const SizedBox(height: 12),
           TextField(
-            controller: nameController,
-            onChanged: (value) {},
+            controller: formNotifier.nameController,
+            onChanged: (value) {
+              formNotifier.formIsValid();
+            },
             decoration: InputDecoration(
               filled: true,
               fillColor: Colors.grey.withOpacity(0.1),
@@ -66,8 +74,10 @@ class _FormSectionState extends ConsumerState<FormSection> {
           ),
           const SizedBox(height: 12),
           TextField(
-            controller: descriptionController,
-            onChanged: (value) {},
+            controller: formNotifier.descriptionController,
+            onChanged: (value) {
+              formNotifier.formIsValid();
+            },
             decoration: InputDecoration(
               filled: true,
               fillColor: Colors.grey.withOpacity(0.1),
@@ -89,8 +99,10 @@ class _FormSectionState extends ConsumerState<FormSection> {
           ),
           const SizedBox(height: 12),
           TextField(
-            controller: priceHigherController,
-            onChanged: (value) {},
+            controller: formNotifier.priceHigherController,
+            onChanged: (value) {
+              formNotifier.formIsValid();
+            },
             keyboardType: TextInputType.number,
             decoration: InputDecoration(
               filled: true,
@@ -113,8 +125,10 @@ class _FormSectionState extends ConsumerState<FormSection> {
           ),
           const SizedBox(height: 12),
           TextField(
-            controller: priceUnitController,
-            onChanged: (value) {},
+            controller: formNotifier.priceUnitController,
+            onChanged: (value) {
+              formNotifier.formIsValid();
+            },
             keyboardType: TextInputType.number,
             decoration: InputDecoration(
               filled: true,
@@ -143,17 +157,9 @@ class _FormSectionState extends ConsumerState<FormSection> {
             ),
             disabledColor: Colors.blueAccent,
             color: const Color.fromARGB(255, 40, 33, 243),
-            onPressed: isValid
+            onPressed: fromProductState
                 ? () {
-                    final productModel = ProductModel(
-                      name: nameController.text,
-                      description: descriptionController.text,
-                      priceHigher: double.parse(priceHigherController.text),
-                      pridceUnit: double.parse(priceUnitController.text),
-                      image: widget.imageSelect!.path,
-                    );
-                    productNotifier.insertProduct(productModel);
-                    productNotifier.loadData();
+                    formNotifier.isRegisterProduct();
                   }
                 : null,
             child: const Text("Agregar"),
@@ -161,13 +167,5 @@ class _FormSectionState extends ConsumerState<FormSection> {
         ],
       ),
     );
-  }
-
-  void registerProduct() {
-    nameController.text = "";
-    descriptionController.text = "";
-    priceHigherController.text = "";
-    priceUnitController.text = "";
-    isValid = false;
   }
 }

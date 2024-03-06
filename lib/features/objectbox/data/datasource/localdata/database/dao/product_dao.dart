@@ -6,7 +6,6 @@ class ProductDao {
 
   Future<List<ProductEntityLocal>> getAll() async {
     final data = await database.query("products");
-
     return data.map((products) {
       return ProductEntityLocal.fromMap(products);
     }).toList();
@@ -20,7 +19,8 @@ class ProductDao {
         'description': productEntityLocal.description,
         'priceHigher': productEntityLocal.priceHigher,
         'priceUnit': productEntityLocal.priceUnit,
-        'image': productEntityLocal.image
+        'image': productEntityLocal.image,
+        'category_id': productEntityLocal.idCategory,
       },
     );
   }
@@ -33,5 +33,25 @@ class ProductDao {
   Future<void> deleteProduct(ProductEntityLocal productEntityLocal) async {
     await database.delete('products',
         where: 'id = ?', whereArgs: [productEntityLocal.id]);
+  }
+
+  Future<List<ProductEntityLocal>> getAllByCategory(int id) async {
+    final dataResponse = await database
+        .query("products", where: 'category_id = ?', whereArgs: [id]);
+    return dataResponse.map((products) {
+      return ProductEntityLocal.fromMap(products);
+    }).toList();
+  }
+
+  Future<List<ProductEntityLocal>> searProduct(String query) async {
+    final pattern = '%$query%';
+    final dataResponse = await database.query(
+      "products",
+      where: "name LIKE ? OR description LIKE ? OR id LIKE ?",
+      whereArgs: [pattern, pattern, pattern],
+    );
+    return dataResponse.map((product) {
+      return ProductEntityLocal.fromMap(product);
+    }).toList();
   }
 }

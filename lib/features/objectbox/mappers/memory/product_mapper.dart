@@ -18,7 +18,7 @@ class ProductMapper {
       description: productModel.description,
       priceHigher: productModel.priceHigher,
       priceUnit: productModel.pridceUnit,
-      image: productModel.image,
+      image: productModel.image!,
     );
   }
 }
