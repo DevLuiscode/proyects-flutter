@@ -34,6 +34,7 @@ class CardNotifier extends StateNotifier<List<CardModel>> {
 
   void deleteCard(String name) {
     cardUsecase.deleteCard(name);
+    totalAll();
     loadData();
   }
 
