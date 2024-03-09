@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:personal_proyects/config/routes/app_routes.dart';
 import 'package:personal_proyects/config/theme/app_theme.dart';
-import 'package:personal_proyects/features/objectbox/data/datasource/localdata/database/database_helper.dart';
+import 'package:personal_proyects/features/sqflite/data/datasource/localdata/database/database_helper.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

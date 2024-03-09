@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:personal_proyects/config/models/app_listhome_model.dart';
-import 'package:personal_proyects/features/objectbox/ui/screens/screens.dart';
+import 'package:personal_proyects/features/sqflite/ui/screens/screens.dart';
 
 class HomeScreen extends StatelessWidget {
   static const name = "home_screen";
